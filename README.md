@@ -32,11 +32,11 @@ You can test manually:
 
 ```bash
 # Valid request
-curl -H "x-pretest: valid-token" http://localhost:8080/health
-curl -H "x-pretest: valid-token" http://localhost:8080/404
+curl -v -H "x-pretest: valid-token" http://localhost:8080/health
+curl -v -H "x-pretest: valid-token" http://localhost:8080/404
 
 # Invalid request
-curl -H "x-pretest: wrong-token" http://localhost:8080/health
+curl -v -H "x-pretest: wrong-token" http://localhost:8080/health
 
 # Missing header
 curl http://localhost:8080
