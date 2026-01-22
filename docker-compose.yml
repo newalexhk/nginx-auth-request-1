@@ -1,14 +1,19 @@
 services:
+  traefik:
+    image: traefik:v3.6.7
+    container_name: traefik
+    ports:
+      - "8080:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "./dynamic_config.yml:/etc/traefik/dynamic_config.yml:ro"
+  
   auth:
     build:
       context: ./auth
+    command: >
+      sh -c "pip install gunicorn && 
+             gunicorn -b 0.0.0.0:5000 auth:app"
     volumes:
       - ./auth/auth.py:/app/auth.py
-  nginx:
-    image: nginx:mainline
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "8080:80"
-    depends_on:
-      - auth

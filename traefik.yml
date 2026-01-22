@@ -1,0 +1,21 @@
+api:
+  insecure: true
+  dashboard: true
+
+log:
+  level: DEBUG
+
+accessLog:
+  format: common
+
+entryPoints:
+  web:
+    address: ":80"
+
+providers:
+  docker:
+    exposedByDefault: false
+    endpoint: "unix:///var/run/docker.sock"
+  file:
+    filename: "/etc/traefik/dynamic_config.yml"
+    watch: true

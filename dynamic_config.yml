@@ -1,0 +1,23 @@
+http:
+  routers:
+    main-route:
+      rule: "PathPrefix(`/`)"
+      entryPoints:
+        - web
+      middlewares:
+        - auth
+      service: main-service
+
+  services:
+    main-service:
+      loadBalancer:
+        servers:
+          - url: "http://auth:5000"
+
+  middlewares:
+    auth:
+      forwardAuth:
+        address: "http://auth:5000/auth"
+        trustForwardHeader: true
+        authResponseHeaders:
+          - "X-Original-URI"
